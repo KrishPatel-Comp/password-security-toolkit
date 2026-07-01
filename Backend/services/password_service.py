@@ -1,4 +1,5 @@
 import math
+from pathlib import Path
 
 def calculate_entropy(password: str):
 
@@ -47,12 +48,69 @@ def detect_repeated_characters(password: str):
 
     return False
 
+def is_common_password(password: str):
+
+    file_path = Path(__file__).parent.parent / "data" / "common_passwords.txt"
+
+    with open(file_path, "r") as file:
+        common_passwords = {line.strip().lower() for line in file}
+
+    return password.lower() in common_passwords
+
+def detect_sequential_patterns(password: str):
+
+    password = password.lower()
+
+    sequences = [
+        "abcdefghijklmnopqrstuvwxyz",
+        "0123456789"
+    ]
+
+    for sequence in sequences:
+        for i in range(len(sequence) - 2):
+            part = sequence[i:i+3]
+
+            if part in password:
+                return True
+
+            if part[::-1] in password:
+                return True
+
+    return False
+def detect_keyboard_pattern(password: str):
+
+    password = password.lower()
+
+    patterns = [
+        "qwertyuiop",
+        "asdfghjkl",
+        "zxcvbnm",
+        "1234567890",
+        "qazwsx",
+        "1q2w3e4r"
+    ]
+
+    for pattern in patterns:
+        for i in range(len(pattern) - 2):
+            part = pattern[i:i+3]
+
+            if part in password:
+                return True
+
+            if part[::-1] in password:
+                return True
+
+    return False
+
 def analyze_password(password: str):
 
     length = len(password)
     entropy = calculate_entropy(password)
     crack_time = estimate_crack_time(entropy)
     has_repeated = detect_repeated_characters(password)
+    is_common = is_common_password(password)
+    has_sequence = detect_sequential_patterns(password)
+    has_keyboard_pattern = detect_keyboard_pattern(password)
     has_uppercase = any(c.isupper() for c in password)
     has_lowercase = any(c.islower() for c in password)
     has_number = any(c.isdigit() for c in password)
@@ -105,6 +163,28 @@ def analyze_password(password: str):
     if has_repeated:
         suggestions.append("Avoid repeating the same character multiple times.")
 
+    if is_common:
+        suggestions.append("This is a commonly used password. Choose something more unique.")
+
+    if has_sequence:
+        suggestions.append("Avoid sequential patterns like '123' or 'abc'.")
+    
+    if has_keyboard_pattern:
+        suggestions.append("Avoid keyboard patterns like 'qwerty' or 'asdf'.")
+
+    if is_common:
+        score -= 30
+        
+
+    if has_sequence:
+        score -= 15
+       
+    if has_keyboard_pattern:
+        score -= 15
+
+    score = max(score, 0)
+
+
     # Determine strength
     if score >= 90:
         strength = "Very Strong"
@@ -122,6 +202,9 @@ def analyze_password(password: str):
         "entropy": entropy,
         "crack_time": crack_time,
         "has_repeated_characters": has_repeated,
+        "is_common_password": is_common,
+        "has_sequential_pattern": has_sequence,
+        "has_keyboard_pattern": has_keyboard_pattern,
         "strength": strength,
         "length": length,
         "has_uppercase": has_uppercase,
