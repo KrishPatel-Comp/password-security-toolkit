@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+
 from services.password_service import analyze_password
 
 app = FastAPI(
@@ -8,8 +8,8 @@ app = FastAPI(
     description="API to analyze password security."
 )
 
-class PasswordRequest(BaseModel):
-    password: str
+from models.request_models import PasswordRequest
+from models.response_models import PasswordAnalysisResponse
 
 @app.get("/")
 def home():
@@ -17,6 +17,6 @@ def home():
         "message": "Welcome to Password Security Toolkit!"
     }
 
-@app.post("/analyze-password")
+@app.post("/analyze-password", response_model=PasswordAnalysisResponse)
 def analyze(request: PasswordRequest):
     return analyze_password(request.password)
