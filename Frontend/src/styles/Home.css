@@ -1,26 +1,35 @@
 .home {
   min-height: 100vh;
-  background: #0f172a;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px;
+
+  background: linear-gradient(
+    135deg,
+    #020617 0%,
+    #0f172a 30%,
+    #111827 60%,
+    #1e293b 100%
+  );
 }
 
 .container {
   width: 100%;
-  max-width: 900px;
+  max-width: 950px;
   text-align: center;
 }
 
 .container h1 {
   color: white;
-  font-size: 3rem;
-  margin-bottom: 10px;
+  font-size: 3.3rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -1px;
 }
 
 .subtitle {
   color: #94a3b8;
-  margin-bottom: 40px;
   font-size: 1.1rem;
+  margin-bottom: 40px;
 }
