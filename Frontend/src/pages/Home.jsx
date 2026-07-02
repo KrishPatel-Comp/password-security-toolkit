@@ -1,5 +1,14 @@
 import PasswordAnalyzer from "../components/PasswordAnalyzer";
 import "../styles/Home.css";
+import AnimatedBackground from "../components/AnimatedBackground";
+
+<>
+  <AnimatedBackground />
+
+  <div className="home">
+    ...
+  </div>
+</>
 
 function Home() {
   return (

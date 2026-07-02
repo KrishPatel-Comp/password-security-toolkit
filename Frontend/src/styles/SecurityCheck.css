@@ -1,0 +1,36 @@
+.security-check{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    transition:.25s;
+}
+
+.security-check:hover{
+    transform:translateY(-2px);
+}
+
+.success{
+    background:#14532d;
+    color:#bbf7d0;
+}
+
+.danger{
+    background:#7f1d1d;
+    color:#fecaca;
+}
+
+.warning{
+    background:#78350f;
+    color:#fde68a;
+}
+
+.security-check svg{
+    font-size:20px;
+}

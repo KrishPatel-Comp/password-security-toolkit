@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { FiEye, FiEyeOff, FiLock } from "react-icons/fi";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-
+import SecurityCheck from "./SecurityCheck";
 
 function PasswordAnalyzer() {
   const [password, setPassword] = useState("");
@@ -151,21 +151,49 @@ const getStrengthColor = () => {
 
 <div className="checks">
 
-  <p>{result.has_uppercase ? "✅" : "❌"} Uppercase Letter</p>
+<SecurityCheck
+title="Uppercase Letter"
+status={result.has_uppercase}
+/>
 
-  <p>{result.has_lowercase ? "✅" : "❌"} Lowercase Letter</p>
+<SecurityCheck
+title="Lowercase Letter"
+status={result.has_lowercase}
+/>
 
-  <p>{result.has_number ? "✅" : "❌"} Number</p>
+<SecurityCheck
+title="Number"
+status={result.has_number}
+/>
 
-  <p>{result.has_special ? "✅" : "❌"} Special Character</p>
+<SecurityCheck
+title="Special Character"
+status={result.has_special}
+/>
 
-  <p>{result.has_repeated_characters ? "⚠️" : "✅"} Repeated Characters</p>
+<SecurityCheck
+title="Repeated Characters"
+status={result.has_repeated_characters}
+warning={true}
+/>
 
-  <p>{result.has_sequential_pattern ? "⚠️" : "✅"} Sequential Pattern</p>
+<SecurityCheck
+title="Sequential Pattern"
+status={result.has_sequential_pattern}
+warning={true}
+/>
 
-  <p>{result.has_keyboard_pattern ? "⚠️" : "✅"} Keyboard Pattern</p>
+<SecurityCheck
+title="Keyboard Pattern"
+status={result.has_keyboard_pattern}
+warning={true}
+/>
 
-  <p>{result.is_common_password ? "⚠️" : "✅"} Common Password</p>
+<SecurityCheck
+title="Common Password"
+status={result.is_common_password}
+warning={true}
+/>
 
 </div>
         <h3>Suggestions</h3>
