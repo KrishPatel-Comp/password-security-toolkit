@@ -2,23 +2,37 @@ import { useState, useEffect } from "react";
 import API from "../services/api";
 import "../styles/PasswordAnalyzer.css";
 import StrengthBar from "./StrengthBar";
+import { motion } from "framer-motion";
+import { FiEye, FiEyeOff, FiLock } from "react-icons/fi";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+
 
 function PasswordAnalyzer() {
   const [password, setPassword] = useState("");
   const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const analyzePassword = async () => {
-    try {
-      const response = await API.post("/analyze-password", {
-        password,
-      });
+  if (!password.trim()) {
+    setResult(null);
+    return;
+  }
 
-      setResult(response.data);
-    } catch (error) {
-      console.error(error);
-      alert("Could not connect to backend.");
-    }
-  };
+  setLoading(true);
+
+  try {
+    const response = await API.post("/analyze-password", {
+      password,
+    });
+
+    setResult(response.data);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
   useEffect(() => {
   if (!password) {
     setResult(null);
@@ -47,23 +61,38 @@ const getStrengthColor = () => {
   }
 };
  return (
-  <div className="analyzer-card">
-    <input
-      type={showPassword ? "text" : "password"}
-      placeholder="Enter your password..."
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-    />
-    <button
-  className="toggle-btn"
-  onClick={() => setShowPassword(!showPassword)}
+ <motion.div
+  className="analyzer-card"
+  initial={{ opacity: 0, y: 40 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6 }}
 >
-  {showPassword ? "Hide Password" : "Show Password"}
-    </button>
+   <div className="input-container">
+  <FiLock className="lock-icon" />
+
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Enter your password..."
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+  />
+
+  <button
+    className="eye-btn"
+    onClick={() => setShowPassword(!showPassword)}
+  >
+    {showPassword ? <FiEyeOff /> : <FiEye />}
+  </button>
+</div>
 
 {/*    <button onClick={analyzePassword}>
       Analyze Password
     </button> */}
+    {loading && (
+  <div className="loading">
+    Analyzing password...
+  </div>
+)}
 
     {result && (
       <div className="result-card">
@@ -72,9 +101,26 @@ const getStrengthColor = () => {
         <div className="stats-grid">
 
   <div className="stat-box">
-    <h4>Score</h4>
-    <span>{result.score}/100</span>
-  </div>
+  <CircularProgressbar
+    value={result.score}
+    text={`${result.score}`}
+    styles={buildStyles({
+      textSize: "22px",
+      pathColor:
+        result.score >= 80
+          ? "#22c55e"
+          : result.score >= 60
+          ? "#3b82f6"
+          : result.score >= 40
+          ? "#f59e0b"
+          : "#ef4444",
+      textColor: "#ffffff",
+      trailColor: "#334155",
+    })}
+  />
+
+  <h4 style={{ marginTop: "15px" }}>Score</h4>
+</div>
 
   <div className="stat-box">
   <h4>Strength</h4>
@@ -131,7 +177,7 @@ const getStrengthColor = () => {
         </ul>
       </div>
     )}
-  </div>
+  </motion.div>
 );
 }
 export default PasswordAnalyzer;
