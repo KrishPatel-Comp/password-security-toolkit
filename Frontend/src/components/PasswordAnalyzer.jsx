@@ -13,6 +13,7 @@ function PasswordAnalyzer() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [history, setHistory] = useState([]);
   const analyzePassword = async () => {
   if (!password.trim()) {
     setResult(null);
@@ -27,6 +28,18 @@ function PasswordAnalyzer() {
     });
 
     setResult(response.data);
+    setHistory(prev => {
+  const updated = [
+    {
+      password,
+      score: response.data.score,
+      strength: response.data.strength,
+    },
+    ...prev,
+  ];
+
+  return updated.slice(0, 5);
+});
   } catch (error) {
     console.error(error);
   } finally {

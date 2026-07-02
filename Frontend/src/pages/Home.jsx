@@ -1,27 +1,33 @@
 import PasswordAnalyzer from "../components/PasswordAnalyzer";
-import "../styles/Home.css";
 import AnimatedBackground from "../components/AnimatedBackground";
-
-<>
-  <AnimatedBackground />
-
-  <div className="home">
-    ...
-  </div>
-</>
+import "../styles/Home.css";
 
 function Home() {
   return (
-    <div className="home">
-      <div className="container">
-        <h1>Password Security Toolkit</h1>
-        <p className="subtitle">
-          Analyze password strength, entropy, crack time, and security patterns.
-        </p>
+    <>
+      <AnimatedBackground />
 
-        <PasswordAnalyzer />
+      <div className="home">
+        <div className="container">
+          <h1>Password Security Toolkit</h1>
+
+          <p className="subtitle">
+            Analyze passwords with entropy calculation, pattern detection, and
+            real-time security scoring.
+          </p>
+
+          <div className="feature-tags">
+            <span>Entropy</span>
+            <span>Pattern Detection</span>
+            <span>Live Analysis</span>
+            <span>FastAPI</span>
+            <span>React</span>
+          </div>
+
+          <PasswordAnalyzer />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
