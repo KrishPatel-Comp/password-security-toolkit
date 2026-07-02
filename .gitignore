@@ -1,0 +1,32 @@
+backend/.venv/
+backend/__pycache__/
+backend/*.pyc
+backend/.pytest_cache/
+
+# Environment variables
+backend/.env
+frontend/.env
+
+# -------------------------
+# Node
+# -------------------------
+frontend/node_modules/
+
+# Build files
+frontend/dist/
+
+# -------------------------
+# VS Code
+# -------------------------
+.vscode/
+
+# -------------------------
+# OS files
+# -------------------------
+.DS_Store
+Thumbs.db
+
+# -------------------------
+# Logs
+# -------------------------
+*.log
