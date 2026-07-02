@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 origins = [
     "http://localhost:5173",
-    "https://6a469397d65e442d085d6177--stirring-fox-58d746.netlify.app",
+    "https://password-security-toolkit.netlify.app",
 ]
 
 app.add_middleware(
