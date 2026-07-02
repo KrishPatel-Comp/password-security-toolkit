@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-
+from fastapi.middleware.cors import CORSMiddleware
 from services.password_service import analyze_password
 
 app = FastAPI(
@@ -8,6 +8,13 @@ app = FastAPI(
     description="API to analyze password security."
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 from models.request_models import PasswordRequest
 from models.response_models import PasswordAnalysisResponse
 
